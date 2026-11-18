@@ -410,6 +410,9 @@
       <button class="save-btn" onclick="savePollJSON()" title="Download as JSON">⬇ Download JSON</button>
       <button class="save-btn save-copy" id="copy-btn" onclick="copyPollText()" title="Copy summary to clipboard">📋 Copy Summary</button>
     </div>
+    <div class="save-row" style="margin-top:0.4rem">
+      <button class="save-btn" style="color:#f87171;border-color:#f8717140" onclick="resetVotes()">🗑 Reset all votes</button>
+    </div>
   </div>
 
   <!-- ── AGENDA ── -->
@@ -656,6 +659,13 @@
       btn.classList.add('copied');
       setTimeout(() => { btn.textContent = '📋 Copy Summary'; btn.classList.remove('copied'); }, 2000);
     });
+  }
+
+  function resetVotes() {
+    if (!confirm('Reset all votes? This cannot be undone.')) return;
+    localStorage.removeItem('team_poll_votes');
+    sessionStorage.removeItem('team_poll_voted');
+    location.reload();
   }
 
   function download(filename, content, type) {
