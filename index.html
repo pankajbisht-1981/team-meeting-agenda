@@ -361,36 +361,36 @@
   <!-- ── ANONYMOUS POLL ── -->
   <div class="card" id="poll-card">
     <div class="card-title">🧠 Vibe Check — before we begin</div>
-    <div class="poll-intro">How are you actually feeling right now?</div>
+    <div class="poll-intro">What's your energy level heading into this meeting?</div>
     <p class="poll-note">
       <span class="anon-badge">🔒 100% anonymous</span>
       &nbsp;No names. No judgement. Just data.
     </p>
 
     <div class="mood-grid" id="mood-grid">
-      <button class="mood-btn" data-mood="dead" onclick="selectMood(this)">
-        <span class="mood-emoji">💀</span>
-        <span class="mood-label">Send help</span>
+      <button class="mood-btn" data-mood="focused" onclick="selectMood(this)">
+        <span class="mood-emoji">🎯</span>
+        <span class="mood-label">In the zone</span>
       </button>
-      <button class="mood-btn" data-mood="tired" onclick="selectMood(this)">
-        <span class="mood-emoji">🥱</span>
-        <span class="mood-label">Running on fumes</span>
-      </button>
-      <button class="mood-btn" data-mood="meh" onclick="selectMood(this)">
-        <span class="mood-emoji">😶</span>
-        <span class="mood-label">Just… here</span>
+      <button class="mood-btn" data-mood="onit" onclick="selectMood(this)">
+        <span class="mood-emoji">💪</span>
+        <span class="mood-label">Let's do this</span>
       </button>
       <button class="mood-btn" data-mood="okay" onclick="selectMood(this)">
         <span class="mood-emoji">🙂</span>
-        <span class="mood-label">Surprisingly okay</span>
+        <span class="mood-label">Doing okay</span>
       </button>
-      <button class="mood-btn" data-mood="good" onclick="selectMood(this)">
-        <span class="mood-emoji">😄</span>
-        <span class="mood-label">Actually good!</span>
+      <button class="mood-btn" data-mood="drained" onclick="selectMood(this)">
+        <span class="mood-emoji">🪫</span>
+        <span class="mood-label">Drained</span>
       </button>
-      <button class="mood-btn" data-mood="chaos" onclick="selectMood(this)">
-        <span class="mood-emoji">🔥</span>
-        <span class="mood-label">Everything's fine</span>
+      <button class="mood-btn" data-mood="stressed" onclick="selectMood(this)">
+        <span class="mood-emoji">😤</span>
+        <span class="mood-label">Stretched thin</span>
+      </button>
+      <button class="mood-btn" data-mood="lost" onclick="selectMood(this)">
+        <span class="mood-emoji">🤯</span>
+        <span class="mood-label">Need clarity</span>
       </button>
     </div>
 
@@ -499,18 +499,18 @@
   }
 
   // ── Poll logic ──
-  const seed = { dead:0, tired:0, meh:0, okay:0, good:0, chaos:0 };
+  const seed = { focused:0, onit:0, okay:0, drained:0, stressed:0, lost:0 };
   let votes = JSON.parse(localStorage.getItem('team_poll_votes') || JSON.stringify(seed));
   let hasVoted = sessionStorage.getItem('team_poll_voted') === 'true';
   let selected = null;
 
   const moods = {
-    dead:  { emoji:'💀', label:'Send help' },
-    tired: { emoji:'🥱', label:'Running on fumes' },
-    meh:   { emoji:'😶', label:'Just… here' },
-    okay:  { emoji:'🙂', label:'Surprisingly okay' },
-    good:  { emoji:'😄', label:'Actually good!' },
-    chaos: { emoji:'🔥', label:"Everything's fine" },
+    focused: { emoji:'🎯', label:'In the zone' },
+    onit:    { emoji:'💪', label:'Let\'s do this' },
+    okay:    { emoji:'🙂', label:'Doing okay' },
+    drained: { emoji:'🪫', label:'Drained' },
+    stressed:{ emoji:'😤', label:'Stretched thin' },
+    lost:    { emoji:'🤯', label:'Need clarity' },
   };
 
   function selectMood(btn) {
@@ -581,12 +581,12 @@
     // Vibe summary
     const top = Object.entries(votes).sort((a,b) => b[1]-a[1])[0][0];
     const msgs = {
-      dead:  { bg:'rgba(248,113,113,0.1)', color:'#f87171', text:"🆘 The team needs a breather. Let's keep this short and actionable." },
-      tired: { bg:'rgba(250,204,21,0.1)',  color:'#facc15', text:"☕ Running on fumes. Let's respect everyone's energy — no fluff today." },
-      meh:   { bg:'rgba(124,106,247,0.1)', color:'#a895fa', text:"😶 Neutral vibes. Time to create a little spark — quick wins first!" },
-      okay:  { bg:'rgba(74,222,128,0.1)',  color:'#4ade80', text:"🙂 Mostly okay! Let's build on that momentum." },
-      good:  { bg:'rgba(74,222,128,0.15)', color:'#4ade80', text:"🎉 Team's in good spirits! Let's make this count." },
-      chaos: { bg:'rgba(247,106,200,0.1)', color:'#f76ac8', text:"🔥 Everything is fine. We're all professionals here. (It's fine.)" },
+      focused: { bg:'rgba(74,222,128,0.15)', color:'#4ade80', text:"🎯 Team is locked in — great energy for deep work today!" },
+      onit:    { bg:'rgba(124,106,247,0.15)', color:'#a895fa', text:"💪 High motivation! Keep it structured and get things done." },
+      okay:    { bg:'rgba(100,170,255,0.1)',  color:'#60a5fa', text:"🙂 Steady state — a focused agenda will keep things on track." },
+      drained: { bg:'rgba(250,204,21,0.1)',   color:'#facc15', text:"🪫 Low energy in the room. Keep it tight, skip the fluff." },
+      stressed:{ bg:'rgba(248,113,113,0.1)',  color:'#f87171', text:"😤 Team is stretched. Prioritize ruthlessly — protect their time." },
+      lost:    { bg:'rgba(247,106,200,0.1)',  color:'#f76ac8', text:"🤯 People need direction. Make goals crystal clear today." },
     };
     const s = msgs[top];
     const vs = document.getElementById('vibe-summary');
@@ -626,8 +626,8 @@
 
   // ── Poll export helpers ──
   const moodLabels = {
-    dead: 'Send help 💀', tired: 'Running on fumes 🥱', meh: 'Just… here 😶',
-    okay: 'Surprisingly okay 🙂', good: 'Actually good! 😄', chaos: "Everything's fine 🔥"
+    focused: 'In the zone 🎯', onit: "Let's do this 💪", okay: 'Doing okay 🙂',
+    drained: 'Drained 🪫', stressed: 'Stretched thin 😤', lost: 'Need clarity 🤯'
   };
 
   function pollRows() {
